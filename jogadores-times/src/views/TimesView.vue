@@ -1,3 +1,5 @@
+
+
 <script>
 import {v4 as uuidv4} from 'uuid';
 export default {
@@ -14,12 +16,19 @@ export default {
   },
   methods: {
     salvar(){
-      const novo_id = uuidv4();
-      this.times.push({
-        id: novo_id,
-        nome: this.novo_time,
-    });
+      if (this.novo_time !==""){
+        const novo_id = uuidv4();
+        this.times.push({
+          id: novo_id,
+          nome: this.novo_time,
+      });
+      this.novo_time = ""; 
+      }
     },
+    excluir(time){
+      const indice = this.times.indexOf(time);
+      this.times.splice(indice, 1);
+    }
   },
 };
 </script>
@@ -43,10 +52,13 @@ export default {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="times in times" :key="times.id">
-            <td>{{ times.id }}</td>
-            <td>{{ times.nome }}</td>
-            <td>??</td>
+          <tr v-for="time in times" :key="time.id">
+            <td>{{ time.id }}</td>
+            <td>{{ time.nome }}</td>
+            <td>
+              <button>Editar</button>
+              <button @click="excluir(time)">Excluir</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -78,9 +90,9 @@ export default {
   margin-left: 1%;
   width: 20%;
   height: 40px;
-  border: 1px solid rgb(36, 127, 65);
+  border: 1px solid rgb(36, 95, 127);
   border-radius: 10px;
-  background-color: rgb(36, 127, 65);
+  background-color: rgb(36, 95, 127);
   color: white;
   font-weight: bold;
   cursor: pointer;
